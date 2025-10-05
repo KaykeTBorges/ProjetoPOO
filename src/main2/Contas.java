@@ -1,4 +1,5 @@
 package main2;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -11,7 +12,7 @@ public class Contas {
     private double saldo;
     private String ID;
     private String senha;
-    private List<Transacao> historico; // 🔹 Histórico de transações
+    private List<Transacao> historico;
 
     public Contas(String nome, double saldo, String senha) {
         this.nome = nome;
@@ -19,38 +20,21 @@ public class Contas {
         this.senha = senha;
         this.ID = gerarIdUnico();
         this.historico = new ArrayList<>();
+        
+        // Registrar depósito inicial se houver
+        if (saldo > 0) {
+            registrarTransacao("DEPOSITO_INICIAL", saldo, null);
+        }
     }
 
-    // Getters e Setters
     public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome.toLowerCase(); }
-
     public double getSaldo() { return saldo; }
     public void setSaldo(double saldo) { this.saldo = saldo; }
-
     public String getSenha() { return senha; }
     public void setSenha(String senha) { this.senha = senha; }
-
     public String getId() { return ID; }
+    public List<Transacao> getHistorico() { return historico; }
 
-    // Histórico
-    public void registrarTransacao(String tipo, double valor, String destino) {
-        historico.add(new Transacao(tipo, valor, this.ID, destino));
-    }
-
-    public void exibirExtrato() {
-        System.out.println("\n=== EXTRATO DA CONTA " + ID + " ===");
-        if (historico.isEmpty()) {
-            System.out.println("Nenhuma movimentação registrada.");
-        } else {
-            for (Transacao t : historico) {
-                System.out.println(t);
-            }
-        }
-        System.out.println("===============================");
-    }
-
-    // Geração de ID único
     private String gerarIdUnico() {
         Random random = new Random();
         String novoId;
@@ -61,14 +45,36 @@ public class Contas {
         return novoId;
     }
 
-    // Operações bancárias
+    public void registrarTransacao(String tipo, double valor, String destino) {
+        historico.add(new Transacao(tipo, valor, this.ID, destino));
+    }
+
+    public String exibirExtratoReal() {
+        StringBuilder extrato = new StringBuilder();
+        extrato.append("=== EXTRATO DA CONTA ").append(ID).append(" ===\n");
+        extrato.append("Nome: ").append(nome).append("\n");
+        extrato.append("Saldo Atual: R$ ").append(String.format("%.2f", saldo)).append("\n\n");
+        
+        if (historico.isEmpty()) {
+            extrato.append("Nenhuma movimentação registrada.\n");
+        } else {
+            extrato.append("📊 HISTÓRICO DE TRANSAÇÕES:\n");
+            for (Transacao t : historico) {
+                extrato.append("• ").append(t.toFormattedString()).append("\n");
+            }
+        }
+        
+        extrato.append("\n").append("=".repeat(50));
+        return extrato.toString();
+    }
+
     public void Depositar(double valor) {
         if (valor <= 0) {
             System.out.println("Valor do depósito deve ser positivo");
             return;
         }
         this.saldo += valor;
-        registrarTransacao("Depósito", valor, null); // 🔹 adiciona no histórico
+        registrarTransacao("DEPOSITO", valor, null);
         System.out.println("Depósito realizado com sucesso!");
     }
 
@@ -82,7 +88,7 @@ public class Contas {
             return false;
         }
         saldo -= valor;
-        registrarTransacao("Saque", valor, null); // 🔹 adiciona no histórico
+        registrarTransacao("SAQUE", valor, null);
         System.out.println("Saque realizado com sucesso!");
         return true;
     }
@@ -111,8 +117,8 @@ public class Contas {
 
         saldo -= valor;
         contaDestino.saldo += valor;
-        registrarTransacao("Transferência enviada", valor, contaDestino.getId());
-        contaDestino.registrarTransacao("Transferência recebida", valor, this.getId());
+        registrarTransacao("TRANSFERENCIA_ENVIADA", valor, contaDestino.getId());
+        contaDestino.registrarTransacao("TRANSFERENCIA_RECEBIDA", valor, this.getId());
         System.out.println("Transferência realizada com sucesso!");
         return true;
     }

@@ -1,0 +1,27 @@
+{
+    "folders": [
+        {
+            "path": ".",
+            "name": "🏦 Sistema Bancário POO"
+        }
+    ],
+    "settings": {
+        "java.configuration.updateBuildConfiguration": "automatic",
+        "java.project.sourcePaths": ["src"],
+        "java.project.outputPath": "bin",
+        "java.project.referencedLibraries": ["lib/**/*.jar"],
+        "files.autoSave": "onFocusChange",
+        "editor.fontSize": 14,
+        "files.exclude": {
+            "**/*.class": true,
+            "bin/**": true
+        }
+    },
+    "extensions": {
+        "recommendations": [
+            "redhat.java",
+            "vscjava.vscode-java-pack",
+            "vscjava.vscode-java-debug"
+        ]
+    }
+}

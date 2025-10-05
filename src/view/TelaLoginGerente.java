@@ -1,11 +1,11 @@
 package view;
 
-import main2.Banco3;
-import main2.Gerente;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
+import main2.Banco3;
+import main2.Gerente;
 
 public class TelaLoginGerente extends JFrame {
     private JTextField txtID;
@@ -23,7 +23,6 @@ public class TelaLoginGerente extends JFrame {
         setSize(300, 200);
         setLocationRelativeTo(null);
         
-        // Criar componentes
         JLabel lblTitulo = new JLabel("Login Gerente", JLabel.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
         

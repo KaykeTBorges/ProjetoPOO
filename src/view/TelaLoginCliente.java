@@ -1,11 +1,11 @@
 package view;
 
-import main2.Banco3;
-import main2.Cliente;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
+import main2.Banco3;
+import main2.Cliente;
 
 public class TelaLoginCliente extends JFrame {
     private JTextField txtID;
@@ -23,7 +23,6 @@ public class TelaLoginCliente extends JFrame {
         setSize(300, 200);
         setLocationRelativeTo(null);
         
-        // Criar componentes
         JLabel lblTitulo = new JLabel("Login Cliente", JLabel.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
         
@@ -33,7 +32,6 @@ public class TelaLoginCliente extends JFrame {
         btnEntrar = new JButton("Entrar");
         btnVoltar = new JButton("Voltar");
         
-        // Layout
         setLayout(new BorderLayout());
         
         JPanel panelTop = new JPanel();

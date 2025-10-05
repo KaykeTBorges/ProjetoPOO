@@ -47,9 +47,9 @@ public class App {
         entrada.close();
     }
 
-    // =========================================================
+
     // Cliente
-    // =========================================================
+
     private static void criarContaCliente() {
         System.out.println("\n--- CRIAR NOVA CONTA CLIENTE ---");
         
@@ -192,7 +192,7 @@ public class App {
                         System.out.println("❌ Conta destino não encontrada.");
                     }
                 }
-                case 5 -> cliente.getConta().exibirExtrato();
+                case 5 -> cliente.getConta().exibirExtratoReal();
                 case 6 -> cliente.exibirInfo();
                 case 7 -> {
                     acesso = false;
@@ -203,9 +203,9 @@ public class App {
         }
     }
 
-    // =========================================================
+
     // Cadastro de Gerente
-    // =========================================================
+
     private static void cadastrarGerente() {
         System.out.println("\n--- CADASTRAR GERENTE ---");
         System.out.print("Nome: ");
@@ -258,9 +258,9 @@ public class App {
         System.out.println("📋 ID: " + gerente.getId());
     }
 
-    // =========================================================
+
     // Acesso Gerente
-    // =========================================================
+
     private static void acessarGerente() {
         System.out.println("\n--- LOGIN GERENTE ---");
         System.out.print("ID: ");
@@ -323,9 +323,9 @@ public class App {
         }
     }
 
-    // =========================================================
+
     // Funções do gerente
-    // =========================================================
+
     private static void removerConta() {
         System.out.print("ID da conta a remover: ");
         String id = entrada.nextLine();
@@ -354,7 +354,7 @@ public class App {
         String id = entrada.nextLine();
         Contas conta = banco.buscarUsuario(id);
         if (conta != null) {
-            conta.exibirExtrato();
+            conta.exibirExtratoReal();
         } else {
             System.out.println("❌ Conta não encontrada.");
         }

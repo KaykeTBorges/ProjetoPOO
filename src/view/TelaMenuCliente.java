@@ -1,12 +1,10 @@
 package view;
 
+import java.awt.*;
+import javax.swing.*;
 import main2.Banco3;
 import main2.Cliente;
 import main2.Contas;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class TelaMenuCliente extends JFrame {
     private JButton btnSacar, btnDepositar, btnSaldo, btnTransferir, btnExtrato, btnVoltar;
@@ -24,7 +22,6 @@ public class TelaMenuCliente extends JFrame {
         setSize(400, 300);
         setLocationRelativeTo(null);
         
-        // Criar componentes
         JLabel lblTitulo = new JLabel("Menu do Cliente", JLabel.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
         
@@ -35,7 +32,6 @@ public class TelaMenuCliente extends JFrame {
         btnExtrato = new JButton("Ver Extrato");
         btnVoltar = new JButton("Voltar");
         
-        // Layout
         setLayout(new BorderLayout());
         
         JPanel panelTop = new JPanel();
@@ -55,50 +51,24 @@ public class TelaMenuCliente extends JFrame {
         add(panelCenter, BorderLayout.CENTER);
         
         // Eventos
-        btnSacar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                sacar();
-            }
-        });
-        
-        btnDepositar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                depositar();
-            }
-        });
-        
-        btnSaldo.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                verSaldo();
-            }
-        });
-        
-        btnTransferir.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                transferir();
-            }
-        });
-        
-        btnExtrato.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                verExtrato();
-            }
-        });
-        
-        btnVoltar.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                voltar();
-            }
-        });
+        btnSacar.addActionListener(e -> sacar());
+        btnDepositar.addActionListener(e -> depositar());
+        btnSaldo.addActionListener(e -> verSaldo());
+        btnTransferir.addActionListener(e -> transferir());
+        btnExtrato.addActionListener(e -> verExtratoReal());
+        btnVoltar.addActionListener(e -> voltar());
     }
     
     private void sacar() {
         String valorStr = JOptionPane.showInputDialog(this, "Valor do saque R$:");
-        if (valorStr != null) {
+        if (valorStr != null && !valorStr.isEmpty()) {
             try {
                 double valor = Double.parseDouble(valorStr);
-                cliente.getConta().Sacar(valor);
-                JOptionPane.showMessageDialog(this, "Saque realizado com sucesso!");
+                boolean sucesso = cliente.getConta().Sacar(valor);
+                if (sucesso) {
+                    JOptionPane.showMessageDialog(this, "✅ Saque realizado!\nNovo saldo: R$ " + 
+                        String.format("%.2f", cliente.getConta().getSaldo()));
+                }
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -107,11 +77,12 @@ public class TelaMenuCliente extends JFrame {
     
     private void depositar() {
         String valorStr = JOptionPane.showInputDialog(this, "Valor do depósito R$:");
-        if (valorStr != null) {
+        if (valorStr != null && !valorStr.isEmpty()) {
             try {
                 double valor = Double.parseDouble(valorStr);
                 cliente.getConta().Depositar(valor);
-                JOptionPane.showMessageDialog(this, "Depósito realizado com sucesso!");
+                JOptionPane.showMessageDialog(this, "✅ Depósito realizado!\nNovo saldo: R$ " + 
+                    String.format("%.2f", cliente.getConta().getSaldo()));
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             }
@@ -131,34 +102,37 @@ public class TelaMenuCliente extends JFrame {
             Contas contaDestino = banco.buscarUsuario(idDestino);
             if (contaDestino != null) {
                 String valorStr = JOptionPane.showInputDialog(this, "Valor da transferência R$:");
-                if (valorStr != null) {
+                if (valorStr != null && !valorStr.isEmpty()) {
                     try {
                         double valor = Double.parseDouble(valorStr);
                         boolean sucesso = cliente.getConta().Transferencia(valor, contaDestino);
                         if (sucesso) {
-                            JOptionPane.showMessageDialog(this, "Transferência realizada com sucesso!");
+                            JOptionPane.showMessageDialog(this, "✅ Transferência realizada!\nNovo saldo: R$ " + 
+                                String.format("%.2f", cliente.getConta().getSaldo()));
                         } else {
-                            JOptionPane.showMessageDialog(this, "Transferência falhou!", "Erro", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(this, "❌ Transferência falhou!", "Erro", JOptionPane.ERROR_MESSAGE);
                         }
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(this, "Erro: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             } else {
-                JOptionPane.showMessageDialog(this, "Conta destino não encontrada!", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "❌ Conta destino não encontrada!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
     
-    private void verExtrato() {
-        // Aqui você pode criar uma tela específica para extrato
-        StringBuilder extrato = new StringBuilder();
-        extrato.append("=== EXTRATO ===\n");
-        extrato.append("Conta: ").append(cliente.getId()).append("\n");
-        extrato.append("Nome: ").append(cliente.getConta().getNome()).append("\n");
-        extrato.append("Saldo: R$ ").append(String.format("%.2f", cliente.getConta().getSaldo())).append("\n");
+    private void verExtratoReal() {
+        String extratoCompleto = cliente.getConta().exibirExtratoReal();
         
-        JOptionPane.showMessageDialog(this, extrato.toString(), "Extrato", JOptionPane.INFORMATION_MESSAGE);
+        JTextArea textArea = new JTextArea(extratoCompleto);
+        textArea.setEditable(false);
+        textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
+        
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(600, 400));
+        
+        JOptionPane.showMessageDialog(this, scrollPane, "Meu Extrato", JOptionPane.INFORMATION_MESSAGE);
     }
     
     private void voltar() {

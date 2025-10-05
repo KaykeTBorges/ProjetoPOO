@@ -1,4 +1,5 @@
 package main2;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -38,26 +39,6 @@ public class Banco3 {
         return contasDePessoas.get(idUsuario);
     }
 
-    // Método para buscar gerente pelo ID
-    public Gerente buscarGerente(String id) {
-        for (Gerente gerente : gerentes) {
-            if (gerente.getConta().getId().equals(id)) {
-                return gerente;
-            }
-        }
-        return null;
-    }
-
-    // Método para buscar cliente pelo ID
-    public Cliente buscarCliente(String id) {
-        for (Cliente cliente : clientes) {
-            if (cliente.getConta().getId().equals(id)) {
-                return cliente;
-            }
-        }
-        return null;
-    }
-
     public boolean contaExiste(String id) {
         return contasDePessoas.containsKey(id);
     }
@@ -93,12 +74,109 @@ public class Banco3 {
         return false;
     }
 
-    // Método para listar apenas gerentes
     public void listarGerentes() {
         System.out.println("=== GERENTES CADASTRADOS ===");
         for (Gerente gerente : gerentes) {
             gerente.exibirInfo();
             System.out.println("--------------------");
         }
+    }
+
+    public Cliente buscarCliente(String id) {
+        for (Cliente cliente : clientes) {
+            if (cliente.getId().equals(id)) {
+                return cliente;
+            }
+        }
+        return null;
+    }
+
+    public Gerente buscarGerente(String id) {
+        for (Gerente gerente : gerentes) {
+            if (gerente.getId().equals(id)) {
+                return gerente;
+            }
+        }
+        return null;
+    }
+
+    public String listarTodasContas() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== CONTAS CADASTRADAS ===\n\n");
+        
+        if (clientes.isEmpty() && gerentes.isEmpty()) {
+            sb.append("Nenhuma conta cadastrada.\n");
+            return sb.toString();
+        }
+        
+        if (!clientes.isEmpty()) {
+            sb.append("👤 CLIENTES:\n");
+            for (Cliente cliente : clientes) {
+                sb.append("• ID: ").append(cliente.getId())
+                  .append(" | Nome: ").append(cliente.getConta().getNome())
+                  .append(" | Saldo: R$ ").append(String.format("%.2f", cliente.getConta().getSaldo()))
+                  .append("\n");
+            }
+            sb.append("\n");
+        }
+        
+        if (!gerentes.isEmpty()) {
+            sb.append("👔 GERENTES:\n");
+            for (Gerente gerente : gerentes) {
+                sb.append("• ID: ").append(gerente.getId())
+                  .append(" | Nome: ").append(gerente.getConta().getNome())
+                  .append(" | Saldo: R$ ").append(String.format("%.2f", gerente.getConta().getSaldo()))
+                  .append("\n");
+            }
+        }
+        
+        sb.append("\n📊 TOTAL: ").append(clientes.size() + gerentes.size()).append(" contas");
+        return sb.toString();
+    }
+    
+    public String listarTodosClientes() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== CLIENTES CADASTRADOS ===\n\n");
+        
+        if (clientes.isEmpty()) {
+            sb.append("Nenhum cliente cadastrado.\n");
+            return sb.toString();
+        }
+        
+        for (Cliente cliente : clientes) {
+            sb.append("ID: ").append(cliente.getId()).append("\n");
+            sb.append("Nome: ").append(cliente.getConta().getNome()).append("\n");
+            sb.append("CPF: ").append(cliente.getCpf()).append("\n");
+            sb.append("Telefone: ").append(cliente.getTelefone()).append("\n");
+            sb.append("Saldo: R$ ").append(String.format("%.2f", cliente.getConta().getSaldo())).append("\n");
+            sb.append("--------------------\n");
+        }
+        
+        sb.append("Total: ").append(clientes.size()).append(" clientes");
+        return sb.toString();
+    }
+
+    public List<Cliente> getClientes() {
+        return new ArrayList<>(clientes);
+    }
+  
+    public List<Gerente> getGerentes() {
+        return new ArrayList<>(gerentes);
+    }
+
+    public boolean temContas() {
+        return !clientes.isEmpty() || !gerentes.isEmpty();
+    }
+
+    public int getTotalContas() {
+        return clientes.size() + gerentes.size();
+    }
+
+    public int getTotalClientes() {
+        return clientes.size();
+    }
+
+    public int getTotalGerentes() {
+        return gerentes.size();
     }
 }

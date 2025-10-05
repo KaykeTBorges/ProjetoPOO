@@ -75,7 +75,7 @@ public class TelaMenuGerente extends JFrame {
         
         btnExtrato.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                verExtrato();
+                verExtratoReal();
             }
         });
         
@@ -93,27 +93,33 @@ public class TelaMenuGerente extends JFrame {
     }
     
     private void listarContas() {
-        StringBuilder lista = new StringBuilder();
-        lista.append("=== CONTAS CADASTRADAS ===\n");
-        
-        // Aqui você implementaria a lógica para listar contas
-        // Por enquanto, vou mostrar uma mensagem simples
-        lista.append("Funcionalidade em desenvolvimento\n");
-        lista.append("Aqui listaria todas as contas do banco");
-        
-        JOptionPane.showMessageDialog(this, lista.toString(), "Lista de Contas", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            String listaContas = banco.listarTodasContas();
+            mostrarTextoGrande("Lista de Contas", listaContas);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar contas: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
+    private void listarClientes() {
+        try {
+            String listaClientes = banco.listarTodosClientes();
+            mostrarTextoGrande("Lista de Clientes", listaClientes);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao carregar clientes: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        }
     }
     
     private void removerConta() {
         String id = JOptionPane.showInputDialog(this, "ID da conta a remover:");
         if (id != null && !id.isEmpty()) {
             String senha = JOptionPane.showInputDialog(this, "Senha da conta:");
-            if (senha != null) {
+            if (senha != null && !senha.isEmpty()) {
                 boolean sucesso = banco.removerConta(id, senha);
                 if (sucesso) {
-                    JOptionPane.showMessageDialog(this, "Conta removida com sucesso!");
+                    JOptionPane.showMessageDialog(this, "✅ Conta removida com sucesso!");
                 } else {
-                    JOptionPane.showMessageDialog(this, "Falha ao remover conta!", "Erro", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "❌ Falha ao remover conta!\nVerifique ID e senha.", "Erro", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -124,40 +130,41 @@ public class TelaMenuGerente extends JFrame {
         if (id != null && !id.isEmpty()) {
             boolean existe = banco.contaExiste(id);
             if (existe) {
-                JOptionPane.showMessageDialog(this, "Conta encontrada!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                Contas conta = banco.buscarUsuario(id);
+                String info = "✅ Conta encontrada!\n\n" +
+                             "ID: " + conta.getId() + "\n" +
+                             "Nome: " + conta.getNome() + "\n" +
+                             "Saldo: R$ " + String.format("%.2f", conta.getSaldo()) + "\n" +
+                             "Tipo: " + (banco.buscarCliente(id) != null ? "CLIENTE" : "GERENTE");
+                JOptionPane.showMessageDialog(this, info, "Conta Encontrada", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(this, "Conta não encontrada!", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "❌ Conta não encontrada!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
     
-    private void verExtrato() {
+    private void verExtratoReal() {
         String id = JOptionPane.showInputDialog(this, "ID da conta para ver extrato:");
         if (id != null && !id.isEmpty()) {
             Contas conta = banco.buscarUsuario(id);
             if (conta != null) {
-                StringBuilder extrato = new StringBuilder();
-                extrato.append("=== EXTRATO ===\n");
-                extrato.append("Conta: ").append(conta.getId()).append("\n");
-                extrato.append("Nome: ").append(conta.getNome()).append("\n");
-                extrato.append("Saldo: R$ ").append(String.format("%.2f", conta.getSaldo())).append("\n");
-                
-                JOptionPane.showMessageDialog(this, extrato.toString(), "Extrato", JOptionPane.INFORMATION_MESSAGE);
+                String extratoCompleto = conta.exibirExtratoReal();
+                mostrarTextoGrande("Extrato - " + conta.getId(), extratoCompleto);
             } else {
-                JOptionPane.showMessageDialog(this, "Conta não encontrada!", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "❌ Conta não encontrada!", "Erro", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
     
-    private void listarClientes() {
-        StringBuilder lista = new StringBuilder();
-        lista.append("=== CLIENTES CADASTRADOS ===\n");
+    private void mostrarTextoGrande(String titulo, String texto) {
+        JTextArea textArea = new JTextArea(texto);
+        textArea.setEditable(false);
+        textArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
         
-        // Aqui você implementaria a lógica para listar clientes
-        lista.append("Funcionalidade em desenvolvimento\n");
-        lista.append("Aqui listaria todos os clientes do banco");
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(600, 400));
         
-        JOptionPane.showMessageDialog(this, lista.toString(), "Lista de Clientes", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, scrollPane, titulo, JOptionPane.INFORMATION_MESSAGE);
     }
     
     private void voltar() {
