@@ -1,9 +1,3 @@
-Perfeito — ótimo detalhe! 🙌
-Como o seu projeto Swing tem uma **tela principal** que inicia toda a versão gráfica (provavelmente chamada `TelaPrincipal.java`), o README precisa refletir isso.
-Aqui vai a **versão revisada e correta do README**, já mencionando a **tela principal como ponto de entrada da interface Swing** 👇
-
----
-
 # 🏦 Sistema Bancário em Java
 
 Este projeto é um **sistema bancário desenvolvido em Java**, aplicando os conceitos de **Programação Orientada a Objetos (POO)** e integrando uma **interface gráfica com Swing**.
@@ -113,9 +107,3 @@ src/
 ## ✍️ Autor
 
 **Kayke Borges**
-📧 [inserir e-mail, se desejar]
-📁 [link do repositório GitHub ou Google Drive]
-
----
-
-Quer que eu gere agora esse README como um **arquivo `.md` formatado para GitHub**, com os emojis, blocos de código e identação certinha para você baixar e anexar?
