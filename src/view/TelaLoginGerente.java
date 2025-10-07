@@ -57,7 +57,6 @@ public class TelaLoginGerente extends JFrame {
         add(panelTop, BorderLayout.NORTH);
         add(panelCenter, BorderLayout.CENTER);
         
-        // Eventos
         btnEntrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 fazerLogin();

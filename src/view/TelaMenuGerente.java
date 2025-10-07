@@ -1,12 +1,12 @@
 package view;
 
-import main2.Banco3;
-import main2.Gerente;
-import main2.Contas;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
+import main2.Banco3;
+import main2.Contas;
+import main2.Gerente;
 
 public class TelaMenuGerente extends JFrame {
     private JButton btnListarContas, btnRemoverConta, btnVerificarConta, btnExtrato, btnListarClientes, btnVoltar;
@@ -24,7 +24,6 @@ public class TelaMenuGerente extends JFrame {
         setSize(400, 300);
         setLocationRelativeTo(null);
         
-        // Criar componentes
         JLabel lblTitulo = new JLabel("Menu do Gerente", JLabel.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
         
@@ -35,7 +34,6 @@ public class TelaMenuGerente extends JFrame {
         btnListarClientes = new JButton("Listar Clientes");
         btnVoltar = new JButton("Voltar");
         
-        // Layout
         setLayout(new BorderLayout());
         
         JPanel panelTop = new JPanel();
@@ -54,7 +52,6 @@ public class TelaMenuGerente extends JFrame {
         add(panelTop, BorderLayout.NORTH);
         add(panelCenter, BorderLayout.CENTER);
         
-        // Eventos
         btnListarContas.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 listarContas();

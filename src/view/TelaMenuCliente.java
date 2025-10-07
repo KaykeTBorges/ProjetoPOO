@@ -50,7 +50,6 @@ public class TelaMenuCliente extends JFrame {
         add(panelTop, BorderLayout.NORTH);
         add(panelCenter, BorderLayout.CENTER);
         
-        // Eventos
         btnSacar.addActionListener(e -> sacar());
         btnDepositar.addActionListener(e -> depositar());
         btnSaldo.addActionListener(e -> verSaldo());

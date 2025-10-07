@@ -21,7 +21,6 @@ public class TelaPrincipal extends JFrame {
         setSize(450, 350);
         setLocationRelativeTo(null);
         
-        // Criar componentes
         JLabel lblTitulo = new JLabel("Sistema Bancário", JLabel.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 24));
         
@@ -30,7 +29,6 @@ public class TelaPrincipal extends JFrame {
         btnLoginGerente = new JButton("Entrar como Gerente");
         btnCadastrarGerente = new JButton("Cadastrar Gerente");
         
-        // Layout
         setLayout(new BorderLayout());
         
         JPanel panelTop = new JPanel();
@@ -48,7 +46,6 @@ public class TelaPrincipal extends JFrame {
         add(panelTop, BorderLayout.NORTH);
         add(panelCenter, BorderLayout.CENTER);
         
-        // Eventos
         btnCadastrarCliente.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 abrirTelaCadastroCliente();
