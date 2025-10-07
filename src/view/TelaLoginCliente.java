@@ -20,7 +20,7 @@ public class TelaLoginCliente extends JFrame {
         
         setTitle("Login - Cliente");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(300, 200);
+        setSize(350, 250);
         setLocationRelativeTo(null);
         
         JLabel lblTitulo = new JLabel("Login Cliente", JLabel.CENTER);
@@ -32,20 +32,22 @@ public class TelaLoginCliente extends JFrame {
         btnEntrar = new JButton("Entrar");
         btnVoltar = new JButton("Voltar");
         
-        setLayout(new BorderLayout());
+        setLayout(new BorderLayout(10, 10));
         
         JPanel panelTop = new JPanel();
         panelTop.add(lblTitulo);
         
         JPanel panelCenter = new JPanel(new GridLayout(3, 2, 10, 10));
-        panelCenter.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        panelCenter.setBorder(BorderFactory.createEmptyBorder(20, 20, 10, 20));
         
         panelCenter.add(new JLabel("ID:"));
         panelCenter.add(txtID);
         panelCenter.add(new JLabel("Senha:"));
         panelCenter.add(txtSenha);
+        panelCenter.add(new JLabel(""));
+        panelCenter.add(new JLabel(""));
         
-        JPanel panelBotoes = new JPanel(new FlowLayout());
+        JPanel panelBotoes = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
         panelBotoes.add(btnEntrar);
         panelBotoes.add(btnVoltar);
         

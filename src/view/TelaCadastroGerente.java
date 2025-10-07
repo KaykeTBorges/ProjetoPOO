@@ -1,11 +1,11 @@
 package view;
 
-import main2.Banco3;
-import main2.Gerente;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
+import main2.Banco3;
+import main2.Gerente;
 
 public class TelaCadastroGerente extends JFrame {
     private JTextField txtNome, txtCPF, txtTelefone, txtMatricula, txtSalario;
@@ -23,7 +23,6 @@ public class TelaCadastroGerente extends JFrame {
         setSize(400, 400);
         setLocationRelativeTo(null);
         
-        // Criar componentes
         JLabel lblTitulo = new JLabel("Cadastro de Gerente", JLabel.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
         
@@ -37,7 +36,6 @@ public class TelaCadastroGerente extends JFrame {
         btnCadastrar = new JButton("Cadastrar");
         btnVoltar = new JButton("Voltar");
         
-        // Layout
         setLayout(new BorderLayout());
         
         JPanel panelTop = new JPanel();
@@ -67,7 +65,6 @@ public class TelaCadastroGerente extends JFrame {
         add(panelCenter, BorderLayout.CENTER);
         add(panelBotoes, BorderLayout.SOUTH);
         
-        // Eventos
         btnCadastrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 cadastrarGerente();
@@ -94,7 +91,6 @@ public class TelaCadastroGerente extends JFrame {
                 return;
             }
             
-            // Validar formato
             if (!Gerente.validarCPF(cpf)) {
                 JOptionPane.showMessageDialog(this, "CPF inválido! Use formato: 000.000.000-00", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;

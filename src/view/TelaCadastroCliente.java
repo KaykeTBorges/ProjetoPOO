@@ -23,7 +23,6 @@ public class TelaCadastroCliente extends JFrame {
         setSize(400, 350);
         setLocationRelativeTo(null);
         
-        // Criar componentes
         JLabel lblTitulo = new JLabel("Cadastro de Cliente", JLabel.CENTER);
         lblTitulo.setFont(new Font("Arial", Font.BOLD, 18));
         
@@ -36,7 +35,6 @@ public class TelaCadastroCliente extends JFrame {
         btnCadastrar = new JButton("Cadastrar");
         btnVoltar = new JButton("Voltar");
         
-        // Layout
         setLayout(new BorderLayout());
         
         JPanel panelTop = new JPanel();
@@ -64,7 +62,6 @@ public class TelaCadastroCliente extends JFrame {
         add(panelCenter, BorderLayout.CENTER);
         add(panelBotoes, BorderLayout.SOUTH);
         
-        // Eventos
         btnCadastrar.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 cadastrarCliente();
@@ -90,7 +87,6 @@ public class TelaCadastroCliente extends JFrame {
                 return;
             }
             
-            // Validar formato
             if (!Cliente.validarCPF(cpf)) {
                 JOptionPane.showMessageDialog(this, "CPF inválido! Use formato: 000.000.000-00", "Erro", JOptionPane.ERROR_MESSAGE);
                 return;
